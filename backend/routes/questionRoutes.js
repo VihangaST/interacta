@@ -25,7 +25,7 @@ router.post("/generate", async (req, res) => {
     const questionsArray = questionBlocks.map((block) => {
       const lines = block.trim().split("\n");
       const question = lines[0];
-      console.log(lines[0]);
+      console.log("-----------", lines[0]);
 
       const options = lines
         .slice(1, 5)
@@ -46,8 +46,6 @@ router.post("/generate", async (req, res) => {
       questions: questionsArray,
     });
     res.json({ msg: "Question generated and saved successfully" });
-
-    // res.json({ questions });
   } catch (error) {
     console.error(error);
     res
@@ -58,8 +56,11 @@ router.post("/generate", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const questions = await QuestionsSet.find();
-    res.json(questions);
+    const questions = await QuestionsSet.find({ topic: "christmas" });
+    const questionList = questions[0].questions;
+
+    console.log(questionList);
+    res.json(questionList);
   } catch (err) {
     res.json({ message: err.message });
   }
