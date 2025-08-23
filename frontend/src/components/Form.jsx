@@ -7,6 +7,8 @@ function Form() {
     festivalName: "",
     questionsCount: 1,
   });
+
+  const [message, setMessage] = useState({ color: "warning", message: "" });
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log("name", name, "value", value);
@@ -18,15 +20,27 @@ function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
 
+    if (formData.questionsCount < 1 || !formData.festivalName) {
+      setMessage({ color: "danger", message: "Please fill in all fields" });
+      return;
+    }
+
+    console.log("Form submitted:", formData);
     axios
       .post("http://localhost:3000/api/questions/generate", formData)
       .then(
         () => console.log("Data submitted successfully"),
+        setMessage({
+          color: "success",
+          message: "Questions generated successfully!",
+        }),
         setFormData({ festivalName: "", questionsCount: 0 })
       )
-      .catch((error) => console.error("Error submitting data:", error));
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        setMessage({ color: "danger", message: "Error generating questions." });
+      });
   };
   return (
     <>
@@ -69,12 +83,19 @@ function Form() {
           <div className="col">
             <button
               type="submit"
-              className="btn btn-success col font-monospace fs-3"
+              className="btn btn-dark col font-monospace fs-3"
             >
               Generate Questions
             </button>
           </div>
         </form>
+        <div>
+          <button
+            className={`btn btn-${message.color} col font-monospace fs-6`}
+          >
+            {message.message}
+          </button>
+        </div>
       </div>
     </>
   );
