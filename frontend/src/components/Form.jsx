@@ -34,8 +34,8 @@ function Form() {
         setMessage({
           color: "success",
           message: "Questions generated successfully!",
-        }),
-        setFormData({ festivalName: "", questionsCount: 0 })
+        })
+        // setFormData({ festivalName: "", questionsCount: 0 })
       )
       .catch((error) => {
         console.error("Error submitting data:", error);
