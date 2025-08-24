@@ -3,20 +3,26 @@ import Question from "../components/Question";
 import axios from "axios";
 
 function QuestionPage() {
-  const [questionsList, setQuestionsList] = useState([]);
+  const [questionData, setQuestionData] = useState({
+    question: "",
+    options: [],
+    correctAnswer: "",
+  });
   const [questionCount, setQuestionCount] = useState(0);
-  useEffect(() => {
+  const fetchQuestions = (idx) => {
     axios
-      .get("http://localhost:3000/api/questions")
+      .get(`http://localhost:3000/api/questions/question-data/${idx}`)
       .then((res) => {
         console.log("Questions fetched successfully");
-        setQuestionsList(res.data);
+        setQuestionData(res.data);
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
 
+  useEffect(() => {
     axios
       .get("http://localhost:3000/api/questions/questionCount")
       .then((res) => {
@@ -31,16 +37,18 @@ function QuestionPage() {
     <>
       <main className="min-vh-100 bg-secondary-subtle">
         <div>
-          <h1>Question Page</h1>
-          {questionsList.map((question) => (
-            <Question questionData={question} />
-          ))}
+          <Question questionData={questionData} />
         </div>
+
+        {/* quesytion number cards */}
         <div className="container text-center">
           {Array.from({ length: questionCount }, (_, idx) => (
             <button
               className={`btn col fs-1 border rounded border-5 border-danger m-2 bg-danger-subtle fw-bold`}
               style={{ width: "100px", height: "100px" }}
+              onClick={() => {
+                fetchQuestions(idx);
+              }}
             >
               {" "}
               Q {idx}
