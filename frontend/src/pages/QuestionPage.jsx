@@ -3,6 +3,7 @@ import Question from "../components/Question";
 import axios from "axios";
 
 function QuestionPage() {
+  const [answeredQuestions, setAnsweredQuestions] = useState(1);
   const [questionData, setQuestionData] = useState({
     question: "",
     options: [],
@@ -33,15 +34,18 @@ function QuestionPage() {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    if (answeredQuestions >= 3) {
+      alert("You have answered all questions!");
+    }
+  }, [answeredQuestions]);
+
   return (
     <>
-      <main className="min-vh-100 bg-secondary-subtle">
-        <div>
-          <Question questionData={questionData} />
-        </div>
-
-        {/* quesytion number cards */}
-        <div className="container text-center">
+      <main className="row min-vh-100 bg-secondary-subtle">
+        {/* question number cards */}
+        <div className="container text-center col m-5">
           {Array.from({ length: questionCount }, (_, idx) => (
             <button
               className={`btn col fs-1 border rounded border-5 border-danger m-2 bg-danger-subtle fw-bold`}
@@ -54,6 +58,13 @@ function QuestionPage() {
               Q {idx}
             </button>
           ))}
+        </div>
+        <div className="col m-5">
+          <Question
+            questionData={questionData}
+            answeredQuestions={answeredQuestions}
+            setAnsweredQuestions={setAnsweredQuestions}
+          />
         </div>
       </main>
     </>
