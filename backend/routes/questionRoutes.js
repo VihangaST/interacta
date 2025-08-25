@@ -84,11 +84,9 @@ router.post("/generate", async (req, res) => {
       questionsArray = JSON.parse(questionsTextClean);
     } catch (err) {
       console.error("Failed to parse JSON from LLM output", err);
-      return res
-        .status(500)
-        .json({
-          error: "Failed to parse questions from LLM output. Please try again.",
-        });
+      return res.status(500).json({
+        error: "Failed to parse questions from LLM output. Please try again.",
+      });
     }
 
     await QuestionsSet.create({
@@ -109,7 +107,7 @@ router.get("/question-data/:id", async (req, res) => {
     console.log("Fetching question data...");
     const questionNo = req.params.id;
     const questionList = await QuestionsSet.find({
-      topic: "christmas",
+      topic: "vesak",
     });
     const questionData = questionList[0].questions[questionNo];
 
