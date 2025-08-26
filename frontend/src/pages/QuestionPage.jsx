@@ -9,7 +9,7 @@ function QuestionPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [marks, setMarks] = useState(0);
-  const { username } = location.state || {};
+  const { username, topic } = location.state || { username: 0, topic: "" };
   // answered question count
   const [answeredQuestions, setAnsweredQuestions] = useState(1);
   const [questionData, setQuestionData] = useState({
@@ -24,7 +24,9 @@ function QuestionPage() {
 
   const fetchQuestion = (idx) => {
     axios
-      .get(`http://localhost:3000/api/questions/question-data/${idx}`)
+      .post(`http://localhost:3000/api/questions/question-data/${idx}`, {
+        topic,
+      })
       .then((res) => {
         console.log("Questions fetched successfully");
         setQuestionData(res.data);
@@ -53,10 +55,13 @@ function QuestionPage() {
   };
 
   useEffect(() => {
+    console.log("Fetching question count...", topic);
     axios
-      .get("http://localhost:3000/api/questions/questionCount")
+      .post("http://localhost:3000/api/questions/questionCount", {
+        topic,
+      })
       .then((res) => {
-        console.log(res.body);
+        console.log(res.data);
         setQuestionCount(res.data.questionCount);
       })
       .catch((err) => {
@@ -89,6 +94,7 @@ function QuestionPage() {
       </Modal>
       <main className="row min-vh-100 bg-secondary-subtle">
         {/* question number cards */}
+
         <div className="container text-center col m-5">
           {Array.from({ length: questionCount }, (_, idx) => (
             <button

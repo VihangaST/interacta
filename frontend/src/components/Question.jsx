@@ -12,6 +12,7 @@ function Question({
   const correctAnswer = questionData.correctAnswer;
 
   const [selectedOption, setSelectedOption] = useState(null);
+  // handleSubmit function
   function handleSubmit() {
     if (selectedOption === null) {
       alert("Please select an option before submitting.");

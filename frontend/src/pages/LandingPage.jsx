@@ -1,6 +1,9 @@
 import Form from "../components/Form";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 function LandingPage() {
+  const navigate = useNavigate();
+  const [topic, setTopic] = useState("cream cracker");
   const [descriptionBased, setDescriptionBased] = useState(false);
   return (
     <>
@@ -19,6 +22,15 @@ function LandingPage() {
         <div className="d-flex justify-content-center">
           <Form descriptionBased={descriptionBased} />
         </div>
+        <button
+          onClick={() => {
+            // setTopic("cream cracker");
+
+            navigate("/login", { state: { topic: topic } });
+          }}
+        >
+          Login
+        </button>
       </main>
     </>
   );

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { topic } = location.state || { topic: "" };
   const [userData, setUserData] = useState({
     username: 0,
     marks: 0,
@@ -28,7 +30,7 @@ function LoginPage() {
       return;
     }
     navigate("/questions", {
-      state: { username: userData.username },
+      state: { username: userData.username, topic: topic },
     });
     // axios
     //   .post("http://localhost:3000/api/user/login", userData)

@@ -162,12 +162,13 @@ router.post("/generate-product", async (req, res) => {
   }
 });
 
-router.get("/question-data/:id", async (req, res) => {
+router.post("/question-data/:id", async (req, res) => {
   try {
     console.log("Fetching question data...");
+    const { topic } = req.body;
     const questionNo = req.params.id;
     const questionList = await QuestionsSet.find({
-      topic: "vesak",
+      topic: topic,
     });
     const questionData = questionList[0].questions[questionNo];
 
@@ -178,9 +179,11 @@ router.get("/question-data/:id", async (req, res) => {
   }
 });
 
-router.get("/questionCount", async (req, res) => {
+router.post("/questionCount", async (req, res) => {
   try {
-    const questions = await QuestionsSet.find({ topic: "vesak" });
+    const { topic } = req.body;
+    console.log("topic", topic);
+    const questions = await QuestionsSet.find({ topic: topic });
     const questionCount = questions[0].questions.length;
 
     console.log(questionCount);
