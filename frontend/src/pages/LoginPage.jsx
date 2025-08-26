@@ -1,6 +1,13 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 function LoginPage() {
-  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    username: 0,
+    marks: 0,
+  });
   const [message, setMessage] = useState({
     message: "",
     color: "",
@@ -8,25 +15,35 @@ function LoginPage() {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-    setUsername({
-      ...username,
+    setUserData({
+      ...userData,
       [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
-    axios
-      .post("http://localhost:3000/api/questions/login", username)
-      .then((res) => {
-        console.log(res.data);
-        setMessage({
-          message: res.data.message,
-          color: "green",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    e.preventDefault();
+    if (!userData.username) {
+      setMessage({ message: "Please enter a number", color: "red" });
+      return;
+    }
+    navigate("/questions", {
+      state: { username: userData.username },
+    });
+    // axios
+    //   .post("http://localhost:3000/api/user/login", userData)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     navigate("/questions", { state: { username: userData.username } });
+
+    //     setMessage({
+    //       message: res.data.message,
+    //       color: "green",
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
   return (
     <>
@@ -35,18 +52,18 @@ function LoginPage() {
           <form onSubmit={handleSubmit} className="p-5 w-100 row">
             <div className="mb-3 col">
               <label
-                for="festivalName"
+                for="username"
                 className="form-label font-monospace fw-bold"
               >
-                Festival
+                Number
               </label>
               <input
                 type="text"
                 className="form-control"
-                name="festivalName"
+                name="username"
                 aria-describedby="nameHelp"
                 onChange={handleChange}
-                value={username}
+                value={userData.username}
               />
             </div>
 
