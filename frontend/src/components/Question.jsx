@@ -1,21 +1,30 @@
 import React, { useState } from "react";
 
-function Question({ questionData, answeredQuestions, setAnsweredQuestions }) {
+function Question({
+  questionData,
+  answeredQuestions,
+  setAnsweredQuestions,
+  marks,
+  setMarks,
+}) {
   const question = questionData.question;
   const options = questionData.options;
+  const correctAnswer = questionData.correctAnswer;
 
-  const [selectedOption, setSelectedOption] = React.useState("");
-  function handleSubmit(selectedOption) {
-    if (!selectedOption) {
+  const [selectedOption, setSelectedOption] = useState(null);
+  function handleSubmit() {
+    if (selectedOption === null) {
       alert("Please select an option before submitting.");
       return;
     }
-    if (selectedOption === questionData.correctAnswer) {
-      alert("Correct answer!");
+    console.log("Selected option:", selectedOption);
+    console.log("Correct answer:", correctAnswer);
+    alert("selected " + selectedOption, correctAnswer);
+    if (selectedOption == correctAnswer) {
+      setMarks(marks + 10);
+      alert("Correct answer!", marks);
     } else {
-      alert(
-        `Wrong answer! The correct answer is: ${questionData.correctAnswer}`
-      );
+      alert(`Wrong answer! The correct answer is: ${correctAnswer}`);
     }
   }
 
@@ -34,7 +43,7 @@ function Question({ questionData, answeredQuestions, setAnsweredQuestions }) {
                   value={option}
                   id={`radioDefault${index}`}
                   onChange={() => {
-                    setSelectedOption(option);
+                    setSelectedOption(index);
                   }}
                 />
                 <label
@@ -49,7 +58,7 @@ function Question({ questionData, answeredQuestions, setAnsweredQuestions }) {
         </div>
         <button
           onClick={() => {
-            handleSubmit(selectedOption);
+            handleSubmit();
             setAnsweredQuestions(answeredQuestions + 1);
             console.log("answeredQuestions", answeredQuestions);
           }}
