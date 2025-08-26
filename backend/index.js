@@ -4,6 +4,7 @@ const dbConnection = require("./config/db");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const questionRoutes = require("./routes/questionRoutes");
+const userDataRoutes = require("./routes/userDataRoutes");
 
 app.use(cors({ origin: true, Credentials: true }));
 
@@ -13,6 +14,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/questions", questionRoutes);
+
+app.use("/api/user", userDataRoutes);
 const PORT = 3000;
 
 app.listen(PORT, () => {
