@@ -102,6 +102,66 @@ router.post("/generate", async (req, res) => {
   }
 });
 
+router.post("/generate-product", async (req, res) => {
+  const { festivalName, questionsCount, description } = req.body;
+  //   const description = `A cream cracker is a light, airy, and crisp unsweetened biscuit, typically made from wheat flour, yeast, and vegetable oil, known for its delicate, milky flavor and satisfying crunch. Baked with fermented dough, these crackers have a flaky texture with air pockets that provide an exceptional crispiness. Cream crackers are a versatile snack, commonly enjoyed plain, with butter, jam, or cheese, or paired with other savory toppings like Marmite or corned beef.
+
+  // Key Characteristics
+  // Texture: Crispy, crunchy, light, and flaky.
+  // Flavor: Delicate, milky, and subtly savory.
+  // Ingredients: Primarily wheat flour, yeast, vegetable oil, and malt extract, with leavening agents and iron for enrichment.
+  // Versatility: A popular choice for both sweet and savory pairings, from cheese and butter to jams and dips.
+  // Common Uses
+  // With cheese: A classic pairing, cream crackers are often featured on cheese boards.
+  // As a base for other foods: They serve as a perfect base for butter, jam, or other spreads.
+  // With savory spreads: Often eaten with savory toppings like Marmite, Vegemite, or corned beef.
+  // As a standalone snack: Their light and satisfying crunch makes them a great snack on their own. `;
+  //   const questionsCount = 10;
+  //   const topic = "cream cracker";
+
+  // if (description || !questionsCount) {
+  //   return res
+  //     .status(400)
+  //     .json({ error: "description and questionsCount are required" });
+  // }
+
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = `Read the following content and generate ${questionsCount} distinct quiz questions based on it. Return ONLY a valid JSON array of objects, where each object has: "question" (string), "options" (array of 4 strings labeled 1, 2, 3, 4), and "correctAnswer" (number, the index of the correct option starting from 0). Do not include any explanation, code block, or extra text. Content: ${description}`;
+    const result = await model.generateContent(prompt);
+    let questionsText = result?.response?.text();
+    console.log("Generated Product Questions Text:", questionsText);
+
+    // Clean output: remove code block markers and trim whitespace
+    let questionsTextClean = questionsText.trim();
+    if (questionsTextClean.startsWith("```")) {
+      questionsTextClean = questionsTextClean.replace(/```(json)?/g, "").trim();
+    }
+
+    let questionsArray = [];
+    try {
+      questionsArray = JSON.parse(questionsTextClean);
+    } catch (err) {
+      console.error("Failed to parse JSON from LLM output", err);
+      return res.status(500).json({
+        error: "Failed to parse questions from LLM output. Please try again.",
+      });
+    }
+
+    await QuestionsSet.create({
+      festivalName: festivalName || "product", // use provided festivalName or default to 'product'
+      questions: questionsArray,
+    });
+    res.json({ msg: "Product questions generated and saved successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: `Failed to generate product questions: ${error.message}`,
+    });
+  }
+});
+
 router.get("/question-data/:id", async (req, res) => {
   try {
     console.log("Fetching question data...");

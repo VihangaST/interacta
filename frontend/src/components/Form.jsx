@@ -2,10 +2,11 @@ import { useState } from "react";
 
 import axios from "axios";
 
-function Form() {
+function Form({ descriptionBased }) {
   const [formData, setFormData] = useState({
     festivalName: "",
     questionsCount: 1,
+    description: "",
   });
 
   const [message, setMessage] = useState({ color: "warning", message: "" });
@@ -16,6 +17,35 @@ function Form() {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleSubmitDescriptionBased = (e) => {
+    e.preventDefault();
+    if (
+      formData.questionsCount < 1 ||
+      !formData.festivalName ||
+      !formData.description
+    ) {
+      setMessage({ color: "danger", message: "Please fill in all fields" });
+      return;
+    }
+    console.log("Form submitted:", formData);
+    axios
+      .post(
+        "http://localhost:3000/api/questions/generate-description",
+        formData
+      )
+      .then(
+        () => console.log("Data submitted successfully"),
+        setMessage({
+          color: "success",
+          message: "Questions generated successfully!",
+        })
+      )
+      .catch((error) => {
+        console.error("Error submitting data:", error);
+        setMessage({ color: "danger", message: "Error generating questions." });
+      });
   };
 
   const handleSubmit = (e) => {
@@ -45,13 +75,18 @@ function Form() {
   return (
     <>
       <div className="w-50 m-5 container border rounded border-5 border-danger p-3 mb-2 bg-danger-subtle text-danger-emphasis">
-        <form onSubmit={handleSubmit} className="p-5 w-100 row">
+        <form
+          onSubmit={
+            descriptionBased ? handleSubmit : handleSubmitDescriptionBased
+          }
+          className="p-5 w-100 row"
+        >
           <div className="mb-3 col">
             <label
               for="festivalName"
               className="form-label font-monospace fw-bold"
             >
-              Festival
+              Topic
             </label>
             <input
               type="text"
@@ -61,10 +96,26 @@ function Form() {
               onChange={handleChange}
               value={formData.festivalName}
             />
-            {/* <div id="nameHelp" className="form-text font-monospace">
-              Enter the name of the festival
-            </div> */}
           </div>
+          {/* display only descriptionBased true */}
+          {descriptionBased && (
+            <div className="mb-3 col">
+              <label
+                for="description"
+                className="form-label font-monospace fw-bold"
+              >
+                Description
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                name="description"
+                aria-describedby="nameHelp"
+                onChange={handleChange}
+                value={formData.description}
+              />
+            </div>
+          )}
           <div className="mb-3 col">
             <label
               for="questionsCount"
