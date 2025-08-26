@@ -3,23 +3,26 @@ import Question from "../components/Question";
 import axios from "axios";
 import Modal from "../components/Modal";
 import { useLocation, useNavigate } from "react-router-dom";
+import CountDown from "../components/CountDown";
 
 function QuestionPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [marks, setMarks] = useState(0);
   const { username } = location.state || {};
-
+  // answered question count
   const [answeredQuestions, setAnsweredQuestions] = useState(1);
   const [questionData, setQuestionData] = useState({
     question: "",
     options: [],
     correctAnswer: "",
   });
+  // no of questions stored
   const [questionCount, setQuestionCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [answeredQuestionsList, setAnsweredQuestionsList] = useState([]);
 
-  const fetchQuestions = (idx) => {
+  const fetchQuestion = (idx) => {
     axios
       .get(`http://localhost:3000/api/questions/question-data/${idx}`)
       .then((res) => {
@@ -31,6 +34,7 @@ function QuestionPage() {
         console.log(err);
       });
   };
+  // save user data at end
   const handleSubmit = async () => {
     // alert(`Username: ${username}, Marks: ${marks}`);
     axios
@@ -90,8 +94,10 @@ function QuestionPage() {
             <button
               className={`btn col fs-1 border rounded border-5 border-danger m-2 bg-danger-subtle fw-bold`}
               style={{ width: "100px", height: "100px" }}
+              disabled={answeredQuestionsList.includes(idx)}
               onClick={() => {
-                fetchQuestions(idx);
+                fetchQuestion(idx);
+                setAnsweredQuestionsList((prev) => [...prev, idx]);
               }}
             >
               {" "}
@@ -107,6 +113,9 @@ function QuestionPage() {
             marks={marks}
             setMarks={setMarks}
           />
+          <div>
+            <CountDown />
+          </div>
         </div>
       </main>
     </>
