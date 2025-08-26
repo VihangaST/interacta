@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import Question from "../components/Question";
 import axios from "axios";
+import Modal from "../components/Modal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function QuestionPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [marks, setMarks] = useState(0);
+  const { username } = location.state || {};
+
   const [answeredQuestions, setAnsweredQuestions] = useState(1);
   const [questionData, setQuestionData] = useState({
     question: "",
@@ -10,6 +17,8 @@ function QuestionPage() {
     correctAnswer: "",
   });
   const [questionCount, setQuestionCount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
   const fetchQuestions = (idx) => {
     axios
       .get(`http://localhost:3000/api/questions/question-data/${idx}`)
@@ -17,6 +26,22 @@ function QuestionPage() {
         console.log("Questions fetched successfully");
         setQuestionData(res.data);
         console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleSubmit = async () => {
+    // alert(`Username: ${username}, Marks: ${marks}`);
+    axios
+      .post("http://localhost:3000/api/user/save", { username, marks })
+      .then((res) => {
+        console.log(res.data);
+
+        // setMessage({
+        //   message: res.data.message,
+        //   color: "green",
+        // });
       })
       .catch((err) => {
         console.log(err);
@@ -36,13 +61,28 @@ function QuestionPage() {
   }, []);
 
   useEffect(() => {
-    if (answeredQuestions >= 3) {
+    if (answeredQuestions > 3) {
       alert("You have answered all questions!");
+      setShowModal(true);
     }
   }, [answeredQuestions]);
 
   return (
     <>
+      <Modal
+        show={showModal}
+        onClose={() => {
+          setShowModal(false), handleSubmit({ username, marks });
+          navigate("/login");
+        }}
+        username={username}
+        marks={marks}
+      >
+        <h2>All Questions Answered</h2>
+        <p>Username: {username}</p>
+        <p>Your score: {marks}</p>
+        <p>Thank you for completing the quiz!</p>
+      </Modal>
       <main className="row min-vh-100 bg-secondary-subtle">
         {/* question number cards */}
         <div className="container text-center col m-5">
@@ -55,7 +95,7 @@ function QuestionPage() {
               }}
             >
               {" "}
-              Q {idx}
+              Q{idx}
             </button>
           ))}
         </div>
@@ -64,6 +104,8 @@ function QuestionPage() {
             questionData={questionData}
             answeredQuestions={answeredQuestions}
             setAnsweredQuestions={setAnsweredQuestions}
+            marks={marks}
+            setMarks={setMarks}
           />
         </div>
       </main>
