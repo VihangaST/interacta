@@ -74,10 +74,10 @@ function Form({ descriptionBased }) {
   };
   return (
     <>
-      <div className="w-50 m-5 container border rounded border-5 border-danger p-3 mb-2 bg-danger-subtle text-danger-emphasis">
+      <div className="w-50 m-3 container border rounded border-5 border-danger p-3 bg-danger-subtle text-danger-emphasis">
         <form
           onSubmit={
-            descriptionBased ? handleSubmit : handleSubmitDescriptionBased
+            descriptionBased ? handleSubmitDescriptionBased : handleSubmit
           }
           className="p-5 w-100 row"
         >
@@ -139,13 +139,15 @@ function Form({ descriptionBased }) {
               Generate Questions
             </button>
           </div>
+          <p> {message.message}</p>
         </form>
+
         <div>
-          <button
+          {/* <button
             className={`btn btn-${message.color} col font-monospace fs-6`}
           >
             {message.message}
-          </button>
+          </button> */}
         </div>
       </div>
     </>
