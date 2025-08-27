@@ -193,6 +193,16 @@ router.post("/questionCount", async (req, res) => {
   }
 });
 
+router.get("/types", async (req, res) => {
+  try {
+    // find distrinct topics
+    const topics = await QuestionsSet.distinct("topic");
+    res.json({ topics });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+});
+
 // router.post("/", async (req, res) => {
 //   try {
 //     const formData = req.body;
