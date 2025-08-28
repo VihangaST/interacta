@@ -181,11 +181,11 @@ function LoginPage() {
         }}
       >
         <div className="justify-content-center">
-          <h1 className="fs-1 m-5"> Ready to Win ???</h1>
+          <h1 className="display-3 fs-0 fw-bold m-5"> Ready to Win ???</h1>
 
           <div
             className="bg-success container border rounded border-5 border-dark p-3 text-danger-emphasis"
-            style={{ width: "80%", maxWidth: "400px" }}
+            style={{ width: "100%", maxWidth: "500px" }}
           >
             <form onSubmit={handleSubmit} className="p-5 w-100 row ">
               <div className="col" style={{ height: "100px" }}>
@@ -197,7 +197,7 @@ function LoginPage() {
                 </label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control w-100"
                   name="username"
                   aria-describedby="nameHelp"
                   onChange={handleChange}
