@@ -220,7 +220,9 @@ router.get("/types", async (req, res) => {
 // In questionRoutes.js
 router.get("/image/:topic", async (req, res) => {
   try {
-    const topic = req.params.topic;
+    // const topic = req.params.topic;
+    const topic = "Cream Cracker";
+    console.log("Fetching image for topic:", topic);
     const doc = await QuestionsSet.findOne({ topic });
     if (doc && doc.image) {
       res.json({ image: doc.image });
