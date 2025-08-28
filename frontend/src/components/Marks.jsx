@@ -10,11 +10,15 @@ function Marks({ marks }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#1E1E1EFF",
         }}
-        className="p-3 bg-dark-subtle border rounded border-5 border-secondary"
+        className="p-3 rounded"
       >
-        <h5 className="">Marks</h5>
-        <h1 style={{ fontSize: "4rem" }} className="font-weight-bold">
+        <h5 style={{ color: "#CEFFE0FF" }}>Marks</h5>
+        <h1
+          style={{ fontSize: "4rem", color: "#CEFFE0FF" }}
+          className="font-weight-bold"
+        >
           {marks}{" "}
         </h1>
       </div>

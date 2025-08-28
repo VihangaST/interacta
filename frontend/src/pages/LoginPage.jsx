@@ -27,12 +27,13 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (topic) {
-      axios
-        .get(`http://localhost:3000/api/questions/image/${topic}`)
-        .then((res) => setImage(res.data.image))
-        .catch(() => setImage(null));
-    }
+    // if (topic) {
+
+    axios
+      .get(`http://localhost:3000/api/questions/image/${topic}`)
+      .then((res) => setImage(res.data.image))
+      .catch(() => setImage(null));
+    // }
   }, [topic]);
 
   const handleSubmit = async (e) => {
@@ -62,7 +63,7 @@ function LoginPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#B1DCADFF",
+          background: "linear-gradient(135deg, #B7E6A8 0%, #25496E 100%)",
         }}
       >
         <div className="justify-content-center">

@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
 
-function CountDown() {
-  const [seconds, setSeconds] = useState(90);
-
-  useEffect(() => {
-    if (seconds < 1) return;
-    const timer = setInterval(() => {
-      setSeconds((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [seconds]);
-
+function QuestionCount({ answeredQuestions }) {
   return (
     <>
       <div
@@ -24,16 +14,16 @@ function CountDown() {
         }}
         className="p-3 rounded"
       >
-        <h5 style={{ color: "#CEFFE0FF" }}>Countdown</h5>
+        <h5 style={{ color: "#CEFFE0FF" }}>Questions</h5>
         <h1
           style={{ fontSize: "4rem", color: "#CEFFE0FF" }}
           className="font-weight-bold"
         >
-          {seconds}{" "}
+          {answeredQuestions - 1}/3{" "}
         </h1>
       </div>
     </>
   );
 }
 
-export default CountDown;
+export default QuestionCount;

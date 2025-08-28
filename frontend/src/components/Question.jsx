@@ -36,7 +36,7 @@ function Question({
       // alert("Correct answer!", marks);
       setIsCorrect(true);
     } else {
-      alert(`Wrong answer! The correct answer is: ${correctAnswer}`);
+      // alert(`Wrong answer! The correct answer is: ${correctAnswer}`);
       setIsCorrect(false);
     }
   }
@@ -44,7 +44,12 @@ function Question({
   return (
     <>
       {showQuestion && question && !isSubmitted ? (
-        <div className="container border rounded border-5 border-primary p-3 mb-2 text-danger-emphasis">
+        <div
+          className="container  rounded p-3 mb-2 text-danger-emphasis"
+          style={{
+            backgroundColor: "#C7D7FF9D",
+          }}
+        >
           <h5
             className="font-monospace mb-4 p-2 rounded"
             style={{ backgroundColor: "#B8CCFFD1", color: "#000000" }}
@@ -92,7 +97,7 @@ function Question({
         </div>
       ) : (
         <div
-          className="align-items-center container border rounded display-6 fw-bold font-monospace border-5 border-primary p-3 mb-2 text-dark"
+          className="align-items-center container rounded display-6 fw-bold font-monospace border-5 border-primary p-3 mb-2 text-dark"
           style={{
             minHeight: "350px",
             minWidth: "300px",

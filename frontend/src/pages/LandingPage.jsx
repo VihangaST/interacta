@@ -37,10 +37,15 @@ function LandingPage() {
 
   return (
     <>
-      <main className="min-vh-100 bg-success-subtle">
+      <main
+        className="min-vh-100"
+        style={{
+          background: "linear-gradient(135deg, #B7E6A8 0%, #25496E 100%)",
+        }}
+      >
         <div className="p-5 mb-4 bg-success rounded-1 opacity-80">
-          <h1 className="text-center text-success-subtle fw-bold">
-            GENERATE QUESTIONS
+          <h1 className="text-center fw-bold" style={{ color: "#CEFFE0FF" }}>
+            GENERATE QUESTION SET
           </h1>
         </div>{" "}
         <div className="d-flex justify-content-center">
@@ -83,7 +88,7 @@ function LandingPage() {
               className={`btn btn-dark col font-monospace fs-3 w-100 btn 
               } col font-monospace fs-6`}
               onClick={() => {
-                navigate("/login", { state: { topic: topic, image: image } });
+                navigate("/login", { state: { topic: topic } });
               }}
             >
               Go to Login Page

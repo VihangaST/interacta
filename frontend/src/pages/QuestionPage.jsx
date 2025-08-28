@@ -4,12 +4,15 @@ import axios from "axios";
 import Modal from "../components/Modal";
 import { useLocation, useNavigate } from "react-router-dom";
 import CountDown from "../components/CountDown";
+import QuestionCount from "../components/QuestionCount";
+import Marks from "../components/Marks";
 
 function QuestionPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [marks, setMarks] = useState(0);
   const { username, topic } = location.state || { username: 0, topic: "" };
+  const [image, setImage] = useState(null);
   // answered question count
   const [answeredQuestions, setAnsweredQuestions] = useState(1);
   const [questionData, setQuestionData] = useState({
@@ -56,6 +59,15 @@ function QuestionPage() {
   };
 
   useEffect(() => {
+    if (topic) {
+      axios
+        .get(`http://localhost:3000/api/questions/image/${topic}`)
+        .then((res) => setImage(res.data.image))
+        .catch(() => setImage(null));
+    }
+  }, []);
+
+  useEffect(() => {
     console.log("Fetching question count...", topic);
     axios
       .post("http://localhost:3000/api/questions/questionCount", {
@@ -72,7 +84,7 @@ function QuestionPage() {
 
   useEffect(() => {
     if (answeredQuestions > 3) {
-      alert("You have answered all questions!");
+      // alert("You have answered all questions!");
       setShowModal(true);
     }
   }, [answeredQuestions]);
@@ -88,19 +100,37 @@ function QuestionPage() {
         username={username}
         marks={marks}
       >
-        <h2>All Questions Answered</h2>
-        <p>Username: {username}</p>
-        <p>Your score: {marks}</p>
-        <p>Thank you for completing the quiz!</p>
+        <h2 className="mb-2">You Have Answered All 3 Questions...</h2>
+        <h5>Username: {username}</h5>
+        <h5>Your score: {marks}</h5>
+        <h6 className="m-3" style={{ color: "#CA1BADFF" }}>
+          Thank you for completing the quiz!
+        </h6>
       </Modal>
 
-      <main className="row min-vh-100 bg-secondary-subtle">
+      <main
+        className="row max-vh-100 w-100"
+        style={{
+          background: "linear-gradient(135deg, #FE91DEFF 0%, #25496E 100%)",
+        }}
+      >
         {/* question number cards */}
 
-        <div className="container text-center col m-5">
+        <div
+          className="container text-center rounded col m-5"
+          style={{
+            // backgroundColor: "#FFFFFFFF",
+            maxHeight: "650px",
+            height: "100%",
+            overflowY: "auto",
+            scrollbarWidth: "thin",
+            scrollbarColor: "#25496E #FE91DE",
+            direction: "rtl",
+          }}
+        >
           {Array.from({ length: questionCount }, (_, idx) => (
             <button
-              className={`btn col fs-1 border rounded border-5 border-danger m-2 bg-danger-subtle fw-bold`}
+              className={`btn col fs-1 rounded m-2 bg-danger-subtle fw-bold`}
               style={{ width: "100px", height: "100px" }}
               disabled={answeredQuestionsList.includes(idx)}
               onClick={() => {
@@ -114,15 +144,20 @@ function QuestionPage() {
           ))}
         </div>
         <div className="col m-5">
-          <Question
-            questionData={questionData}
-            answeredQuestions={answeredQuestions}
-            setAnsweredQuestions={setAnsweredQuestions}
-            marks={marks}
-            setMarks={setMarks}
-          />
-          <div>
+          <div className="d-flex justify-content-between mb-5">
+            <QuestionCount answeredQuestions={answeredQuestions} />
+            <Marks marks={marks} />
+
             <CountDown />
+          </div>
+          <div>
+            <Question
+              questionData={questionData}
+              answeredQuestions={answeredQuestions}
+              setAnsweredQuestions={setAnsweredQuestions}
+              marks={marks}
+              setMarks={setMarks}
+            />
           </div>
         </div>
       </main>
