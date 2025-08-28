@@ -22,6 +22,7 @@ function QuestionPage() {
   const [showModal, setShowModal] = useState(false);
   const [answeredQuestionsList, setAnsweredQuestionsList] = useState([]);
 
+  // fetch question data
   const fetchQuestion = (idx) => {
     axios
       .post(`http://localhost:3000/api/questions/question-data/${idx}`, {
@@ -92,6 +93,7 @@ function QuestionPage() {
         <p>Your score: {marks}</p>
         <p>Thank you for completing the quiz!</p>
       </Modal>
+
       <main className="row min-vh-100 bg-secondary-subtle">
         {/* question number cards */}
 
