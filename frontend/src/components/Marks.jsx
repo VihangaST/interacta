@@ -13,7 +13,7 @@ function Marks({ marks }) {
         }}
         className="p-3 bg-dark-subtle border rounded border-5 border-secondary"
       >
-        <h5 className="">Questions</h5>
+        <h5 className="">Marks</h5>
         <h1 style={{ fontSize: "4rem" }} className="font-weight-bold">
           {marks}{" "}
         </h1>
