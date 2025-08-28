@@ -34,11 +34,14 @@ function Form({
       setMessage({ color: "danger", message: "Please fill in all fields" });
       return;
     }
+
+    // Add image to formData before sending
+    const dataToSend = { ...formData, image };
     console.log("Form submitted:", formData);
     axios
       .post(
         "http://localhost:3000/api/questions/generate-description",
-        formData
+        dataToSend
       )
       .then(
         () => console.log("Data submitted successfully"),

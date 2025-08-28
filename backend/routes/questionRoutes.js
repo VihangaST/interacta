@@ -103,7 +103,7 @@ router.post("/generate", async (req, res) => {
   }
 });
 
-router.post("/generate-product", async (req, res) => {
+router.post("/generate-description", async (req, res) => {
   const { festivalName, questionsCount, description } = req.body;
   //   const description = `A cream cracker is a light, airy, and crisp unsweetened biscuit, typically made from wheat flour, yeast, and vegetable oil, known for its delicate, milky flavor and satisfying crunch. Baked with fermented dough, these crackers have a flaky texture with air pockets that provide an exceptional crispiness. Cream crackers are a versatile snack, commonly enjoyed plain, with butter, jam, or cheese, or paired with other savory toppings like Marmite or corned beef.
 
@@ -151,8 +151,9 @@ router.post("/generate-product", async (req, res) => {
     }
 
     await QuestionsSet.create({
-      festivalName: festivalName || "product", // use provided festivalName or default to 'product'
+      topic: festivalName, // use provided festivalName or default to 'product'
       questions: questionsArray,
+      image: req.body.image,
     });
     res.json({ msg: "Product questions generated and saved successfully" });
   } catch (error) {
