@@ -114,15 +114,17 @@
 
 // export default LoginPage;
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import bhImage from "../assets/bg1.jpg";
 
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { topic } = location.state || { topic: "" };
+  const [image, setImage] = useState(null);
+
+  const { topic } = location.state || {};
+
   const [userData, setUserData] = useState({
     username: 0,
     marks: 0,
@@ -140,6 +142,14 @@ function LoginPage() {
     });
   };
 
+  useEffect(() => {
+    if (topic) {
+      axios
+        .get(`http://localhost:3000/api/questions/image/${topic}`)
+        .then((res) => setImage(res.data.image))
+        .catch(() => setImage(null));
+    }
+  }, [topic]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userData.username) {
@@ -152,22 +162,14 @@ function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-      }}
-    >
-      {/* Left side with background image */}
+    <div style={{ display: "flex", minHeight: "100vh" }}>
+      {/* Left side with uploaded image */}
       <div
         style={{
           flex: 1,
-          backgroundImage: `url(${bhImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: image ? `url(${image}) center/cover no-repeat` : "#eee",
         }}
       ></div>
-
       {/* Right side with form */}
       <div
         style={{

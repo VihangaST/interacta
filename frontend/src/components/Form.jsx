@@ -2,7 +2,12 @@ import { useState } from "react";
 
 import axios from "axios";
 
-function Form({ descriptionBased }) {
+function Form({
+  descriptionBased,
+  handleImageUpload,
+  image,
+  setDescriptionBased,
+}) {
   const [formData, setFormData] = useState({
     festivalName: "",
     questionsCount: 1,
@@ -56,9 +61,12 @@ function Form({ descriptionBased }) {
       return;
     }
 
+    // Add image to formData before sending
+    const dataToSend = { ...formData, image };
+
     console.log("Form submitted:", formData);
     axios
-      .post("http://localhost:3000/api/questions/generate", formData)
+      .post("http://localhost:3000/api/questions/generate", dataToSend)
       .then(
         () => console.log("Data submitted successfully"),
         setMessage({
@@ -74,81 +82,112 @@ function Form({ descriptionBased }) {
   };
   return (
     <>
-      <div className="w-50 m-3 container border rounded border-5 border-danger p-3 bg-danger-subtle text-danger-emphasis">
+      <div className="w-50 container border rounded border-5 border-danger p-2 bg-danger-subtle text-danger-emphasis d-flex justify-content-center">
         <form
           onSubmit={
             descriptionBased ? handleSubmitDescriptionBased : handleSubmit
           }
-          className="p-5 w-100 row"
+          className="p-1 w-100 row"
         >
-          <div className="mb-3 col">
-            <label
-              for="festivalName"
-              className="form-label font-monospace fw-bold"
-            >
-              Topic
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              name="festivalName"
-              aria-describedby="nameHelp"
-              onChange={handleChange}
-              value={formData.festivalName}
-            />
-          </div>
-          {/* display only descriptionBased true */}
-          {descriptionBased && (
+          <div className="row g-3 m-1">
+            <div className="d-flex">
+              <button
+                className={`btn btn-${
+                  descriptionBased ? "success" : "primary"
+                } col font-monospace fs-6`}
+                onClick={() => setDescriptionBased(!descriptionBased)}
+              >
+                {descriptionBased
+                  ? "Enable topic based generator"
+                  : "Enable Description based generator"}
+              </button>
+            </div>
             <div className="mb-3 col">
               <label
-                for="description"
+                for="festivalName"
                 className="form-label font-monospace fw-bold"
               >
-                Description
+                Topic
               </label>
               <input
                 type="text"
                 className="form-control"
-                name="description"
+                name="festivalName"
                 aria-describedby="nameHelp"
                 onChange={handleChange}
-                value={formData.description}
+                value={formData.festivalName}
               />
             </div>
-          )}
-          <div className="mb-3 col">
-            <label
-              for="questionsCount"
-              className="form-label font-monospace fw-bold"
-            >
-              Questions
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              name="questionsCount"
-              value={formData.questionsCount}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="col">
-            <button
-              type="submit"
-              className="btn btn-dark col font-monospace fs-3"
-            >
-              Generate Questions
-            </button>
-          </div>
-          <p> {message.message}</p>
-        </form>
+            {/* display only descriptionBased true */}
+            {descriptionBased && (
+              <div className="mb-3 col">
+                <label
+                  for="description"
+                  className="form-label font-monospace fw-bold"
+                >
+                  Description
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="description"
+                  aria-describedby="nameHelp"
+                  onChange={handleChange}
+                  value={formData.description}
+                />
+              </div>
+            )}
+            <div className="mb-3 col">
+              <label
+                for="questionsCount"
+                className="form-label font-monospace fw-bold"
+              >
+                Questions count
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                name="questionsCount"
+                value={formData.questionsCount}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mt-2">
+              <div>
+                <label className="form-label font-monospace fw-bold">
+                  Upload Login Page Image :
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                {image && (
+                  <div className="mt-2">
+                    <img
+                      src={image}
+                      alt="Preview"
+                      style={{
+                        maxWidth: "30px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col">
+              <button
+                type="submit"
+                className="btn btn-dark col font-monospace fs-3"
+              >
+                Generate Questions
+              </button>
+            </div>
 
-        <div>
-          {/* <button
-            className={`btn btn-${message.color} col font-monospace fs-6`}
-          >
-            {message.message}
-          </button> */}
-        </div>
+            <p> {message.message}</p>
+          </div>
+        </form>
       </div>
     </>
   );
