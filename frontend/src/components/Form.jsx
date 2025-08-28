@@ -85,7 +85,10 @@ function Form({
   };
   return (
     <>
-      <div className="w-50 container border rounded border-5 border-danger p-2 bg-danger-subtle text-danger-emphasis d-flex justify-content-center">
+      <div
+        className="w-50 container border rounded border-5 p-2  text-danger-emphasis d-flex justify-content-center"
+        style={{ backgroundColor: "#B7E6A8FF" }}
+      >
         <form
           onSubmit={
             descriptionBased ? handleSubmitDescriptionBased : handleSubmit
@@ -98,6 +101,9 @@ function Form({
                 className={`btn btn-${
                   descriptionBased ? "success" : "primary"
                 } col font-monospace fs-6`}
+                style={{
+                  backgroundColor: descriptionBased ? "#1D793EFF" : "#25496EFF",
+                }}
                 onClick={() => setDescriptionBased(!descriptionBased)}
               >
                 {descriptionBased
