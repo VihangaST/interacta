@@ -18,16 +18,21 @@ function Modal({ show, onClose, children }) {
       <div
         className="modal-content"
         style={{
-          background: "#fff",
-          width: "50%",
-          height: "30%",
+          background: "#EDEAF5FF",
+          width: "40%",
+          height: "35%",
           padding: "2rem",
           borderRadius: "8px",
           minWidth: "300px",
+          textAlign: "center",
         }}
       >
         {children}
-        <button className="btn btn-secondary w-25" onClick={onClose}>
+        <button
+          className="btn btn-secondary w-25"
+          style={{ backgroundColor: "#290768FF" }}
+          onClick={onClose}
+        >
           Close
         </button>
       </div>
