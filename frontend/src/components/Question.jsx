@@ -41,7 +41,12 @@ function Question({
     <>
       {showQuestion && question && !isSubmitted ? (
         <div className="container border rounded border-5 border-primary p-3 mb-2 text-danger-emphasis">
-          <h5 className="font-monospace mb-4">{question.replace(/\*/g, "")}</h5>
+          <h5
+            className="font-monospace mb-4 p-2 rounded"
+            style={{ backgroundColor: "#B8CCFFD1", color: "#000000" }}
+          >
+            {question.replace(/\*/g, "")}
+          </h5>
           <div className="m-2">
             {options.map((option, index) => {
               return (
@@ -58,6 +63,7 @@ function Question({
                   />
                   <label
                     className="form-check-label font-monospace"
+                    style={{ color: "#000000" }}
                     htmlFor={`radioDefault${index}`}
                   >
                     {option}
