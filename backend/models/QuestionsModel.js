@@ -9,6 +9,7 @@ const QuestionSchema = new mongoose.Schema({
 const questionsSetSchema = new mongoose.Schema({
   topic: String,
   questions: [QuestionSchema],
+  image: String,
 });
 
 module.exports = mongoose.model("QuestionsSet", questionsSetSchema);

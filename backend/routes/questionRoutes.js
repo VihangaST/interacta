@@ -92,6 +92,7 @@ router.post("/generate", async (req, res) => {
     await QuestionsSet.create({
       topic: festivalName,
       questions: questionsArray,
+      image: req.body.image,
     });
     res.json({ msg: "Question generated and saved successfully" });
   } catch (error) {
@@ -214,4 +215,19 @@ router.get("/types", async (req, res) => {
 //     res.json({ error: err.message });
 //   }
 // });
+
+// In questionRoutes.js
+router.get("/image/:topic", async (req, res) => {
+  try {
+    const topic = req.params.topic;
+    const doc = await QuestionsSet.findOne({ topic });
+    if (doc && doc.image) {
+      res.json({ image: doc.image });
+    } else {
+      res.status(404).json({ error: "Image not found for this topic" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 module.exports = router;
