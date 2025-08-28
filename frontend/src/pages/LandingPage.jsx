@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 function LandingPage() {
   const navigate = useNavigate();
-  const [topic, setTopic] = useState("cream cracker");
+  const [topic, setTopic] = useState("");
   const [descriptionBased, setDescriptionBased] = useState(false);
   const [types, setTypes] = useState([]);
   const [image, setImage] = useState(null);
@@ -51,7 +51,10 @@ function LandingPage() {
             setDescriptionBased={setDescriptionBased}
           />
         </div>
-        <div className="d-flex justify-content-between m-5 gap-3 border rounded border-dark p-5">
+        <div
+          className="d-flex justify-content-between m-4 gap-3 border rounded border-dark p-5"
+          style={{ backgroundColor: "#25496EFF" }}
+        >
           <div className="w-50 btn-group">
             <button
               type="button"
