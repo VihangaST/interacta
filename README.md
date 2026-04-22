@@ -17,9 +17,13 @@ It’s inefficient, time-consuming, and not user-friendly.
 🔧 Tech Stack: MERN (MongoDB, Express.js, React, Node.js) + Boostrap + LLM API Integration
 
 1. Question Generating Page
+  Based on Product Description
 <img width="997" height="558" alt="image" src="https://github.com/user-attachments/assets/f815629f-aa93-4a4c-8e28-695d694c5cdd" />
 
-2. Login Page
+  Based on Festival name
+  <img width="1002" height="562" alt="Screenshot 2025-09-01 095711" src="https://github.com/user-attachments/assets/b779cfed-2303-4c08-b318-b7ab47d88321" />
+
+3. Login Page
 <img width="1005" height="563" alt="image" src="https://github.com/user-attachments/assets/19ba2597-0c6d-420d-b24d-12b3f66e53e6" />
 
 3.Question Page
