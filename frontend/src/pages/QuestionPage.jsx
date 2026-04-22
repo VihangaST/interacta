@@ -11,7 +11,11 @@ function QuestionPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [marks, setMarks] = useState(0);
-  const { username, topic } = location.state || { username: 0, topic: "" };
+  const { username, topic, seasonId } = location.state || {
+    username: 0,
+    topic: "",
+    seasonId: "",
+  };
   const [image, setImage] = useState(null);
   // answered question count
   const [answeredQuestions, setAnsweredQuestions] = useState(1);
@@ -44,14 +48,13 @@ function QuestionPage() {
   const handleSubmit = async () => {
     // alert(`Username: ${username}, Marks: ${marks}`);
     axios
-      .post("http://localhost:3000/api/user/save", { username, marks })
+      .post("http://localhost:3000/api/user/save", {
+        username,
+        marks,
+        seasonId,
+      })
       .then((res) => {
         console.log(res.data);
-
-        // setMessage({
-        //   message: res.data.message,
-        //   color: "green",
-        // });
       })
       .catch((err) => {
         console.log(err);
@@ -94,7 +97,7 @@ function QuestionPage() {
       <Modal
         show={showModal}
         onClose={() => {
-          setShowModal(false), handleSubmit({ username, marks });
+          (setShowModal(false), handleSubmit({ username, marks }));
           navigate("/login");
         }}
         username={username}

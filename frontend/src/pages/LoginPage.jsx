@@ -42,9 +42,35 @@ function LoginPage() {
       setMessage({ message: "Please enter a number", color: "red" });
       return;
     }
-    navigate("/questions", {
-      state: { username: userData.username, topic: topic },
-    });
+    // Use topic as seasonId for now
+    const seasonId = topic;
+    try {
+      const res = await axios.post("http://localhost:3000/api/user/save", {
+        username: userData.username,
+        marks: 0,
+        seasonId: seasonId,
+      });
+      // If success, allow to quiz (first time)
+      navigate("/questions", {
+        state: {
+          username: userData.username,
+          topic: topic,
+          seasonId: seasonId,
+        },
+      });
+    } catch (err) {
+      if (err.response && err.response.status === 409) {
+        setMessage({
+          message: `You have already participated in this season. Your previous score: ${err.response.data.marks}`,
+          color: "red",
+        });
+      } else {
+        setMessage({
+          message: "An error occurred. Please try again.",
+          color: "red",
+        });
+      }
+    }
   };
 
   return (
@@ -53,8 +79,7 @@ function LoginPage() {
       <div
         style={{
           flex: 1,
-          // background: image ? `url(${image}) center/cover no-repeat` : "#eee",
-          // i need to hard code an image here in public folder,
+
           background: `url(/crackers.png) center/cover no-repeat`,
         }}
       ></div>
