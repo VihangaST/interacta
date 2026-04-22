@@ -103,6 +103,11 @@ function QuestionPage() {
         <h2 className="mb-2">You Have Answered All 3 Questions...</h2>
         <h5>Username: {username}</h5>
         <h5>Your score: {marks}</h5>
+        <h6 style={{ color: "#4C0101FF" }}>
+          {marks == 30
+            ? "Congratulations! You are a Winner"
+            : "Game Over! Better Luck Next Time"}
+        </h6>
         <h6 className="m-3" style={{ color: "#CA1BADFF" }}>
           Thank you for completing the quiz!
         </h6>

@@ -53,7 +53,9 @@ function LoginPage() {
       <div
         style={{
           flex: 1,
-          background: image ? `url(${image}) center/cover no-repeat` : "#eee",
+          // background: image ? `url(${image}) center/cover no-repeat` : "#eee",
+          // i need to hard code an image here in public folder,
+          background: `url(/crackers.png) center/cover no-repeat`,
         }}
       ></div>
       {/* Right side with form */}
@@ -67,11 +69,17 @@ function LoginPage() {
         }}
       >
         <div className="justify-content-center">
-          <h1
+          <h2
             className="text-center display-3 fs-0 fw-bold"
             style={{ color: "#186312FF" }}
           >
             Interacta
+          </h2>
+          <h1
+            className="text-center display-3 fs-0 fw-bold"
+            style={{ color: "#343934FF" }}
+          >
+            Introducing "{topic}"
           </h1>
 
           <h1 className="text-center display-3 fs-1 fw-bold m-5">

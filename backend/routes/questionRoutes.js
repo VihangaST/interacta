@@ -105,26 +105,6 @@ router.post("/generate", async (req, res) => {
 
 router.post("/generate-description", async (req, res) => {
   const { festivalName, questionsCount, description } = req.body;
-  //   const description = `A cream cracker is a light, airy, and crisp unsweetened biscuit, typically made from wheat flour, yeast, and vegetable oil, known for its delicate, milky flavor and satisfying crunch. Baked with fermented dough, these crackers have a flaky texture with air pockets that provide an exceptional crispiness. Cream crackers are a versatile snack, commonly enjoyed plain, with butter, jam, or cheese, or paired with other savory toppings like Marmite or corned beef.
-
-  // Key Characteristics
-  // Texture: Crispy, crunchy, light, and flaky.
-  // Flavor: Delicate, milky, and subtly savory.
-  // Ingredients: Primarily wheat flour, yeast, vegetable oil, and malt extract, with leavening agents and iron for enrichment.
-  // Versatility: A popular choice for both sweet and savory pairings, from cheese and butter to jams and dips.
-  // Common Uses
-  // With cheese: A classic pairing, cream crackers are often featured on cheese boards.
-  // As a base for other foods: They serve as a perfect base for butter, jam, or other spreads.
-  // With savory spreads: Often eaten with savory toppings like Marmite, Vegemite, or corned beef.
-  // As a standalone snack: Their light and satisfying crunch makes them a great snack on their own. `;
-  //   const questionsCount = 10;
-  //   const topic = "cream cracker";
-
-  // if (description || !questionsCount) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: "description and questionsCount are required" });
-  // }
 
   try {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -204,18 +184,6 @@ router.get("/types", async (req, res) => {
     res.json({ message: err.message });
   }
 });
-
-// router.post("/", async (req, res) => {
-//   try {
-//     const formData = req.body;
-//     const festivalName = formData.festivalName;
-//     const questionsCount = formData.questionsCount;
-
-//     res.json({ message: "Data received", data: formData });
-//   } catch (err) {
-//     res.json({ error: err.message });
-//   }
-// });
 
 // In questionRoutes.js
 router.get("/image/:topic", async (req, res) => {
